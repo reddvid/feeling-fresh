@@ -1,12 +1,312 @@
-﻿<Window x:Class="FeelingFreshWPF.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FeelingFreshWPF"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+﻿<Window
+    x:Class="FeelingFreshWPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FeelingFreshWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Feeling Fresh"
+    Width="600"
+    Height="400"
+    Background="Black"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <Style x:Key="FocusVisual3">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle
+                            Margin="2"
+                            SnapsToDevicePixels="true"
+                            Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                            StrokeDashArray="1 2"
+                            StrokeThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD" />
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070" />
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD" />
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1" />
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B" />
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
+        <Style x:Key="CustomCloseButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="true">
+                            <ContentPresenter
+                                x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="#e81123" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="#f1707a" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
+                                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=MyCustomTitleBar}"/>
+    </WindowChrome.WindowChrome>
+    
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="MyCustomTitleBar" Background="Transparent">
+            <Image
+                Margin="8"
+                HorizontalAlignment="Left"
+                Source="Images/square-44x44.png" />
+            <TextBlock
+                Margin="32,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Foreground="White"
+                Text="Feeling Fresh" />
+            <Button
+                x:Name="CustomCloseBtn"
+                Width="28"
+                Height="28" Click="CustomCloseBtn_Click"
+                Margin="0,0,2,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                Content="✕"
+                Foreground="White"
+                Style="{DynamicResource CustomCloseButtonStyle}" />
+        </Grid>
+        <TabControl
+            Grid.Row="1" SelectedIndex="1"
+            Background="#FF202020"
+            BorderThickness="0">
+            <TabItem Header="Drivers" Visibility="Collapsed">
+                <ListView
+                    x:Name="DriversView"
+                    BorderThickness="0"
+                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
+                    Loaded="DriversView_Loaded"
+                    MouseDoubleClick="DriversView_MouseDoubleClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="22" Margin="-2">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Source="Images/driver.png" />
+                                <TextBlock
+                                    Margin="20,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding AppName}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Desktop Apps">
+                <ListView
+                    x:Name="DesktopAppsView"
+                    BorderThickness="0"
+                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
+                    Loaded="DesktopAppsView_Loaded"
+                    MouseDoubleClick="DesktopAppsView_MouseDoubleClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="22" Margin="-2">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Source="Images/app.png" />
+                                <TextBlock
+                                    Margin="20,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding AppName}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Header="UWP Apps">
+                <local:CustomListView
+                    x:Name="UWPAppsView"
+                    BorderThickness="0"
+                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
+                    Loaded="UWPAppsView_Loaded"
+                    MouseDoubleClick="UWPAppsView_MouseDoubleClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="22" Margin="-2">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Source="Images/uwp.png" />
+                                <TextBlock
+                                    Margin="20,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding AppName}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </local:CustomListView>
+            </TabItem>
+            <TabItem Header="VSIX">
+                <ListView
+                    x:Name="VsixView"
+                    BorderThickness="0"
+                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
+                    Loaded="VsixView_Loaded"
+                    MouseDoubleClick="VsixView_MouseDoubleClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="22" Margin="-2">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Source="Images/vsix.png" />
+                                <TextBlock
+                                    Margin="20,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding VName}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Registry">
+                <ListView
+                    x:Name="RegView"
+                    BorderThickness="0"
+                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
+                    Loaded="RegView_Loaded"
+                    MouseDoubleClick="RegView_MouseDoubleClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="22" Margin="-2">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Source="Images/reg.png" />
+                                <TextBlock
+                                    Margin="20,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding RegName}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Fonts">
+                <StackPanel Margin="12,0" VerticalAlignment="Center">
+                    <Button
+                        x:Name="BtnLaunchFolderWizard"
+                        Height="32"
+                        Click="Button_Click"
+                        Content="Open Fonts Manager"
+                        Tag="wizard" />
+                    <Border Height="24" />
+                    <Button
+                        x:Name="BtnOpenFontsFolder"
+                        Height="32"
+                        Click="Button_Click"
+                        Content="Open Fonts Collection"
+                        Tag="folder" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Cursors">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="80" />
+                    </Grid.RowDefinitions>
+                    <ListView
+                        x:Name="CursorsView"
+                        BorderThickness="0"
+                        ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
+                        Loaded="CursorsView_Loaded"
+                        MouseDoubleClick="CursorsView_MouseDoubleClick">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Height="22" Margin="-2">
+                                    <Image
+                                        Width="16"
+                                        Height="16"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Source="Images/cursor.png" />
+                                    <TextBlock
+                                        Margin="20,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding CurName}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button
+                        x:Name="BtnOpenFMousePointers"
+                        Grid.Row="1"
+                        Height="32"
+                        Margin="12"
+                        VerticalAlignment="Center"
+                        Click="Button_Click"
+                        Content="Go to Mouse Pointers Settings"
+                        Tag="cursors" />
+                </Grid>
+
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
