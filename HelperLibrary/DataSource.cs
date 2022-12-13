@@ -48,7 +48,12 @@ namespace HelperLibrary
         public string ImagePath { get; set; }
         public string ExePath { get; set; }
 
-        public LegacyApp(string name, string exepath, string imgpath)
+        public LegacyApp()
+        {
+
+        }
+
+        public LegacyApp(string name, string exepath, string imgpath = "") 
         {
             AppName = name;
             ImagePath = imgpath;

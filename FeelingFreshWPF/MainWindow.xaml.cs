@@ -76,7 +76,7 @@ namespace FeelingFreshWPF
 
         private void DesktopAppsView_Loaded(object sender, RoutedEventArgs e)
         {
-            DesktopAppsView.ItemsSource = new ItemsSource().DesktopApps();
+            DesktopAppsView.ItemsSource = DBHelper.DesktopApps;
         }
 
         private void DesktopAppsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -85,7 +85,7 @@ namespace FeelingFreshWPF
 
             if (item != null)
             {
-                Process.Start("https://www.google.com/search?q=download+" + item.AppName + "&btnI");
+                Process.Start("https://duckduckgo.com/?q=!ducky+" + item.AppName);
                 //Debug.WriteLine(item.ExePath);
 
                 //if (item.AppName == "Visual Studio Community 2017")
