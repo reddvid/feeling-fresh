@@ -86,11 +86,11 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=MyCustomTitleBar}"/>
+        <WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=MyCustomTitleBar}" />
     </WindowChrome.WindowChrome>
-    
+
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -110,45 +110,22 @@
             <Button
                 x:Name="CustomCloseBtn"
                 Width="28"
-                Height="28" Click="CustomCloseBtn_Click"
+                Height="28"
                 Margin="0,0,2,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Background="Transparent"
                 BorderThickness="0"
+                Click="CustomCloseBtn_Click"
                 Content="✕"
                 Foreground="White"
                 Style="{DynamicResource CustomCloseButtonStyle}" />
         </Grid>
         <TabControl
-            Grid.Row="1" SelectedIndex="1"
+            Grid.Row="1"
             Background="#FF202020"
-            BorderThickness="0">
-            <TabItem Header="Drivers" Visibility="Collapsed">
-                <ListView
-                    x:Name="DriversView"
-                    BorderThickness="0"
-                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
-                    Loaded="DriversView_Loaded"
-                    MouseDoubleClick="DriversView_MouseDoubleClick">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Height="22" Margin="-2">
-                                <Image
-                                    Width="16"
-                                    Height="16"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Source="Images/driver.png" />
-                                <TextBlock
-                                    Margin="20,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding AppName}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </TabItem>
+            BorderThickness="0"
+            SelectedIndex="1">
             <TabItem Header="Desktop Apps">
                 <ListView
                     x:Name="DesktopAppsView"
@@ -198,114 +175,6 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </local:CustomListView>
-            </TabItem>
-            <TabItem Header="VSIX">
-                <ListView
-                    x:Name="VsixView"
-                    BorderThickness="0"
-                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
-                    Loaded="VsixView_Loaded"
-                    MouseDoubleClick="VsixView_MouseDoubleClick">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Height="22" Margin="-2">
-                                <Image
-                                    Width="16"
-                                    Height="16"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Source="Images/vsix.png" />
-                                <TextBlock
-                                    Margin="20,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding VName}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </TabItem>
-            <TabItem Header="Registry">
-                <ListView
-                    x:Name="RegView"
-                    BorderThickness="0"
-                    ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
-                    Loaded="RegView_Loaded"
-                    MouseDoubleClick="RegView_MouseDoubleClick">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Height="22" Margin="-2">
-                                <Image
-                                    Width="16"
-                                    Height="16"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Source="Images/reg.png" />
-                                <TextBlock
-                                    Margin="20,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding RegName}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </TabItem>
-            <TabItem Header="Fonts">
-                <StackPanel Margin="12,0" VerticalAlignment="Center">
-                    <Button
-                        x:Name="BtnLaunchFolderWizard"
-                        Height="32"
-                        Click="Button_Click"
-                        Content="Open Fonts Manager"
-                        Tag="wizard" />
-                    <Border Height="24" />
-                    <Button
-                        x:Name="BtnOpenFontsFolder"
-                        Height="32"
-                        Click="Button_Click"
-                        Content="Open Fonts Collection"
-                        Tag="folder" />
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Cursors">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="80" />
-                    </Grid.RowDefinitions>
-                    <ListView
-                        x:Name="CursorsView"
-                        BorderThickness="0"
-                        ItemContainerStyle="{DynamicResource ListViewItemStyle1}"
-                        Loaded="CursorsView_Loaded"
-                        MouseDoubleClick="CursorsView_MouseDoubleClick">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Height="22" Margin="-2">
-                                    <Image
-                                        Width="16"
-                                        Height="16"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Source="Images/cursor.png" />
-                                    <TextBlock
-                                        Margin="20,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding CurName}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <Button
-                        x:Name="BtnOpenFMousePointers"
-                        Grid.Row="1"
-                        Height="32"
-                        Margin="12"
-                        VerticalAlignment="Center"
-                        Click="Button_Click"
-                        Content="Go to Mouse Pointers Settings"
-                        Tag="cursors" />
-                </Grid>
-
             </TabItem>
         </TabControl>
     </Grid>
