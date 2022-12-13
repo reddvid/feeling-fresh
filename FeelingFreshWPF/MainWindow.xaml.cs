@@ -52,11 +52,7 @@ namespace FeelingFreshWPF
             }
         }
 
-        private void DriversView_Loaded(object sender, RoutedEventArgs e)
-        {
-            DriversView.ItemsSource = new ItemsSource().Drivers();
-        }
-
+      
         private void DriversView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -74,9 +70,9 @@ namespace FeelingFreshWPF
             }
         }
 
-        private void DesktopAppsView_Loaded(object sender, RoutedEventArgs e)
+        private async void DesktopAppsView_Loaded(object sender, RoutedEventArgs e)
         {
-            DesktopAppsView.ItemsSource = DBHelper.DesktopApps;
+            DesktopAppsView.ItemsSource = await DBHelper.DesktopApps();
         }
 
         private void DesktopAppsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -97,54 +93,8 @@ namespace FeelingFreshWPF
             }
         }
 
-        private void VsixView_Loaded(object sender, RoutedEventArgs e)
-        {
-            VsixView.ItemsSource = new ItemsSource().VSExtensions();
-        }
+        
 
-        private void VsixView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var item = (sender as ListView).SelectedItem as Vsix;
-
-            if (item != null)
-            {
-                Process.Start(item.VPath);
-            }
-        }
-
-        private void RegView_Loaded(object sender, RoutedEventArgs e)
-        {
-            RegView.ItemsSource = new ItemsSource().RegKeys();
-        }
-
-        private void RegView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var item = (sender as ListView).SelectedItem as RegistryItem;
-
-            if (item != null)
-            {
-                Debug.WriteLine(item.RegPath);
-
-                Process.Start(item.RegPath);
-            }
-        }
-
-        private void CursorsView_Loaded(object sender, RoutedEventArgs e)
-        {
-            CursorsView.ItemsSource = new ItemsSource().Cursors();
-        }
-
-        private void CursorsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var item = (sender as ListView).SelectedItem as HelperLibrary.Cursor;
-
-            if (item != null)
-            {
-                Debug.WriteLine(item.InfPath);
-
-                Process.Start("rundll32.exe", @"setupapi, InstallHinfSection DefaultInstall 132 " + item.InfPath);
-            }
-        }
 
         private void UWPAppsView_Loaded(object sender, RoutedEventArgs e)
         {
