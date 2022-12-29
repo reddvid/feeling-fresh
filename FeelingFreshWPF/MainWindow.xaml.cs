@@ -1,6 +1,7 @@
 ﻿using HelperLibrary;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -53,6 +54,7 @@ namespace FeelingFreshWPF
 			}
 		}
 
+		ObservableCollection<LegacyApp> DesktopApps { get; set; } = new ObservableCollection<LegacyApp>();
 
 		private void DriversView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
@@ -73,7 +75,13 @@ namespace FeelingFreshWPF
 
 		private async void DesktopAppsView_Loaded(object sender, RoutedEventArgs e)
 		{
-			DesktopAppsView.ItemsSource = await DBHelper.DesktopApps();
+			await LaodDesktopApps();
+		}
+
+		private async Task LaodDesktopApps()
+		{
+			DesktopApps = await DBHelper.GetApps();
+			DesktopAppsView.ItemsSource = DesktopApps;
 		}
 
 		private async void DesktopAppsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -106,6 +114,21 @@ namespace FeelingFreshWPF
 		private void CustomCloseBtn_Click(object sender, RoutedEventArgs e)
 		{
 			Application.Current.Shutdown();
+		}
+
+		private async void btnAddApp_Click(object sender, RoutedEventArgs e)
+		{
+			if (String.IsNullOrEmpty(InputAppName.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
+
+			var appName = InputAppName.Text;
+
+			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower())) return;
+
+			await DBHelper.AddApp(appName);
+			await LaodDesktopApps();
+
+			DesktopAppsView.SelectedIndex = DesktopAppsView.Items.Count - 1;
+			DesktopAppsView.ScrollIntoView(DesktopAppsView.SelectedItem);
 		}
 	}
 }
