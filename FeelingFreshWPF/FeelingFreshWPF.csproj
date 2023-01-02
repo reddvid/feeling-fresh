@@ -39,9 +39,6 @@
     <None Remove="Mona-Sans.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HelperLibrary\HelperLibrary.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Fonts\OpenSans.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

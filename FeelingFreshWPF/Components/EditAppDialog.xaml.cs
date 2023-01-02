@@ -1,4 +1,4 @@
-﻿using FeelingFreshWPF;
+﻿using FeelingFreshWPF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,10 +15,10 @@ using System.Windows.Shapes;
 
 namespace Components
 {
-	/// <summary>
-	/// Interaction logic for EditAppDialog.xaml
-	/// </summary>
-	public partial class EditAppDialog : UserControl
+    /// <summary>
+    /// Interaction logic for EditAppDialog.xaml
+    /// </summary>
+    public partial class EditAppDialog : UserControl
 	{
 		private string originalName;
 

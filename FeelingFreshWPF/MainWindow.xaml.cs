@@ -1,5 +1,6 @@
 ﻿using Components;
-using HelperLibrary;
+using FeelingFreshWPF.Helpers;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,12 +22,12 @@ using Windows.UI.Popups;
 
 namespace FeelingFreshWPF
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
 	{
-		ObservableCollection<LegacyApp> DesktopApps { get; set; } = new ObservableCollection<LegacyApp>();
+		ObservableCollection<Win32App> DesktopApps { get; set; } = new ObservableCollection<Win32App>();
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -47,13 +48,11 @@ namespace FeelingFreshWPF
 
 		private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			var item = (sender as ListView).SelectedItem as LegacyApp;
+			var item = (sender as ListView).SelectedItem as Win32App;
 
 			if (item != null)
 			{
-#pragma warning disable CA1416 // Validate platform compatibility
-				await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+" + item.AppName));
-#pragma warning restore CA1416 // Validate platform compatibility
+				await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+download+for+windows+" + item.AppName));
 			}
 		}
 
@@ -102,7 +101,7 @@ namespace FeelingFreshWPF
 		{
 			bool? isChecked = tggleBtnSort.IsChecked;
 
-			listViewAppList.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.AppId);
+			listViewAppList.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.Id);
 
 			if (listViewAppList.SelectedIndex != -1) listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
 		}
@@ -122,7 +121,7 @@ namespace FeelingFreshWPF
 
 		private async void DeleteApp_Click(object sender, RoutedEventArgs e)
 		{
-			var appName = (listViewAppList.SelectedItem as LegacyApp).AppName;
+			var appName = (listViewAppList.SelectedItem as Win32App).AppName;
 
 			await DBHelper.RemoveApp(appName);
 			await LoadDesktopApps();
@@ -135,7 +134,7 @@ namespace FeelingFreshWPF
 
 		private async void EditApp_Click(object sender, RoutedEventArgs e)
 		{
-			var appName = (listViewAppList.SelectedItem as LegacyApp).AppName;
+			var appName = (listViewAppList.SelectedItem as Win32App).AppName;
 			int currentIndex = listViewAppList.SelectedIndex;
 
 			Window editDialog = new Window
