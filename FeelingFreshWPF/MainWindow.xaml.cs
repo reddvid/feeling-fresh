@@ -1,4 +1,5 @@
-﻿using HelperLibrary;
+﻿using Components;
+using HelperLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Windows.System;
+using Windows.UI.Popups;
 
 namespace FeelingFreshWPF
 {
@@ -24,56 +26,13 @@ namespace FeelingFreshWPF
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private string FONTS_PATH = @"D:\OneDrive\Personal\Fonts\";
-		private string CURSORS_PATH = @"D:\OneDrive\Personal\Fresh Install\Cursors\";
-
+		ObservableCollection<LegacyApp> DesktopApps { get; set; } = new ObservableCollection<LegacyApp>();
 		public MainWindow()
 		{
 			InitializeComponent();
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			//Process.Start(@"E:\Drivers\1.AMT_Intel_11.0.0.1155_W10x64\SetupME.exe");
-
-			var btn = sender as Button;
-
-			switch (btn.Tag)
-			{
-				case "wizard":
-					Process.Start(FONTS_PATH + "Fonts.lnk");
-					break;
-
-				case "folder":
-					Process.Start(FONTS_PATH);
-					break;
-
-				case "cursors":
-					Process.Start(CURSORS_PATH + "Mouse Pointers.lnk");
-					break;
-			}
-		}
-
-		ObservableCollection<LegacyApp> DesktopApps { get; set; } = new ObservableCollection<LegacyApp>();
-
-		private void DriversView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			try
-			{
-				var item = (sender as ListView).SelectedItem as DriverItem;
-
-				if (item != null)
-				{
-					Process.Start(item.ExePath);
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("Something went wrong");
-			}
-		}
-
-		private async void DesktopAppsView_Loaded(object sender, RoutedEventArgs e)
+		private async void AppList_Loaded(object sender, RoutedEventArgs e)
 		{
 			await LoadDesktopApps();
 		}
@@ -81,84 +40,82 @@ namespace FeelingFreshWPF
 		private async Task LoadDesktopApps()
 		{
 			DesktopApps = await DBHelper.GetApps();
-			DesktopAppsView.ItemsSource = DesktopApps;
+			listViewAppList.ItemsSource = DesktopApps;
 		}
 
-		private async void DesktopAppsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			var item = (sender as ListView).SelectedItem as LegacyApp;
 
 			if (item != null)
 			{
+#pragma warning disable CA1416 // Validate platform compatibility
 				await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+" + item.AppName));
+#pragma warning restore CA1416 // Validate platform compatibility
 			}
 		}
 
-		private void UWPAppsView_Loaded(object sender, RoutedEventArgs e)
-		{
-			UWPAppsView.ItemsSource = new ItemsSource().StoreApps();
-		}
-
-		private void UWPAppsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			var item = (sender as ListView).SelectedItem as UWPApp;
-
-			if (item != null)
-			{
-				Debug.WriteLine(item.AppName);
-
-				Process.Start("ms-windows-store://pdp/?productid=" + item.AppId);
-			}
-		}
-
-		private void CustomCloseBtn_Click(object sender, RoutedEventArgs e)
+		private void CloseWindow_Click(object sender, RoutedEventArgs e)
 		{
 			Application.Current.Shutdown();
 		}
 
-		private async void btnAddApp_Click(object sender, RoutedEventArgs e)
+		private async void AddApp_Click(object sender, RoutedEventArgs e)
 		{
-			if (String.IsNullOrEmpty(InputAppName.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
+			if (String.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
 
-			var appName = InputAppName.Text;
-
-			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower())) return;
-
-			await DBHelper.AddApp(appName);
-			await LoadDesktopApps();
-
-			DesktopAppsView.SelectedIndex = DesktopAppsView.Items.Count - 1;
-			DesktopAppsView.ScrollIntoView(DesktopAppsView.SelectedItem);
-		}
-
-		private void alpha_Checked(object sender, RoutedEventArgs e)
-		{
-			bool? isChecked = alpha.IsChecked;
-
-			DesktopAppsView.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.AppId);
-
-			if (DesktopAppsView.SelectedIndex != -1) DesktopAppsView.ScrollIntoView(DesktopAppsView.SelectedItem);
-		}
-
-		private void btnSearchApp_Click(object sender, RoutedEventArgs e)
-		{
-			if (String.IsNullOrEmpty(InputAppName.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
-
-			var appName = InputAppName.Text;
+			var appName = tbxInput.Text;
 
 			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
 			{
 				// Select Index
+				SearchAndScroll(appName);
+			}
+
+			await DBHelper.AddApp(appName);
+			await LoadDesktopApps();
+
+			listViewAppList.SelectedIndex = listViewAppList.Items.Count - 1;
+			listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+		}
+
+		private void SearchAndScroll(string appName)
+		{
+			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+			{
+				// Select Index
 				var item = DesktopApps.Where(x => x.AppName.ToLower() == appName.ToLower()).FirstOrDefault();
-				DesktopAppsView.SelectedIndex = DesktopAppsView.Items.IndexOf(item);
-				DesktopAppsView.ScrollIntoView(DesktopAppsView.SelectedItem);
+				listViewAppList.SelectedIndex = listViewAppList.Items.IndexOf(item);
+				listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
 				return;
 			}
 		}
 
-		private async void deleteMenuItem_Click(object sender, RoutedEventArgs e)
+		private void SortApps_Toggled(object sender, RoutedEventArgs e)
 		{
-			var appName = (DesktopAppsView.SelectedItem as LegacyApp).AppName;
+			bool? isChecked = tggleBtnSort.IsChecked;
+
+			listViewAppList.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.AppId);
+
+			if (listViewAppList.SelectedIndex != -1) listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+		}
+
+		private void SearchApp_Click(object sender, RoutedEventArgs e)
+		{
+			if (String.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
+
+			var appName = tbxInput.Text;
+
+			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+			{
+				// Select Index
+				SearchAndScroll(appName);
+			}
+		}
+
+		private async void DeleteApp_Click(object sender, RoutedEventArgs e)
+		{
+			var appName = (listViewAppList.SelectedItem as LegacyApp).AppName;
 
 			await DBHelper.RemoveApp(appName);
 			await LoadDesktopApps();
@@ -167,6 +124,23 @@ namespace FeelingFreshWPF
 		private void CustomMinimizeBtn_Click(object sender, RoutedEventArgs e)
 		{
 			App.Current.MainWindow.WindowState = WindowState.Minimized;
+		}
+
+		private async void EditApp_Click(object sender, RoutedEventArgs e)
+		{
+			var appName = (listViewAppList.SelectedItem as LegacyApp).AppName;
+
+			Window editDialog = new Window
+			{
+				ResizeMode = ResizeMode.NoResize,
+				Title = "Edit App",
+				Content = new EditAppDialog(appName),
+				MaxWidth = 380,
+				MaxHeight = 220
+			};
+
+			var d = editDialog.ShowDialog();
+			await LoadDesktopApps();
 		}
 	}
 }
