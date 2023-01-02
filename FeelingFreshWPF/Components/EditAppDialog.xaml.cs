@@ -46,7 +46,7 @@ namespace Components
 
 		private void tbxAppName_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(tbxAppName.Text) || tbxAppName.Text.ToLower() == originalName.ToLower()) return;
+			if (string.IsNullOrWhiteSpace(tbxAppName.Text) || tbxAppName.Text == originalName) return;
 
 			// Enable Update button
 			btnUpdate.IsEnabled = true;
