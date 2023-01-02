@@ -46,6 +46,7 @@ namespace HelperLibrary
 
         public string AppName { get; set; }
         public string ImagePath { get; set; }
+        public int AppId { get; set; }
         public string ExePath { get; set; }
 
         public LegacyApp()
@@ -53,10 +54,11 @@ namespace HelperLibrary
 
         }
 
-        public LegacyApp(string name, string exepath, string imgpath = "") 
+        public LegacyApp(string name, string exepath, int id = -1, string imgpath = "") 
         {
             AppName = name;
             ImagePath = imgpath;
+            AppId = id;
 
             if (exepath.Contains("http") || name.Contains("Office") || name.Contains("Download Manager"))
                 ExePath = exepath;  // Launch bound custom exePath
@@ -146,39 +148,6 @@ namespace HelperLibrary
             _drivers.Add(new DriverItem("Nvidia Graphics", @"Nvidia"));
 
             return _drivers;
-        }
-
-        public ObservableCollection<LegacyApp> DesktopApps()
-        {
-            _apps.Add(new LegacyApp("Google Chrome", "ChromeSetup_3", "/images/chrome.png"));
-            _apps.Add(new LegacyApp("Visual Studio Community 2017", "https://goo.gl/55bHFD", "/images/vs.png"));
-            _apps.Add(new LegacyApp("Visual Studio Code", "VSCodeSetup-x64-1.25.0", "/images/code.png"));
-            _apps.Add(new LegacyApp("FileZilla", "FileZilla_3.34.0_win64-setup_bundled", "/images/npp.png"));
-            _apps.Add(new LegacyApp("Git for Windows", "Git-2.18.0-64-bit", "/images/git.png"));
-            _apps.Add(new LegacyApp("GitHub Desktop", "GitHubDesktopSetup", "/images/github.png"));
-            _apps.Add(new LegacyApp("Microsoft Teams", "Teams_windows_x64", "/images/github.png"));
-            _apps.Add(new LegacyApp("Netspeed Monitor", "netspeedmonitor_2_5_4_0_x64_setup", "/images/github.png"));
-            _apps.Add(new LegacyApp("Internet Download Manager", "E:\\Torrents\\Internet.Download.Manager.v6.30.1.exe", "/images/github.png"));
-
-            _apps.Add(new LegacyApp("Discord", "DiscordSetup", "/images/discord.png"));
-            _apps.Add(new LegacyApp("GeForce Experience", "DiscordSetup", "/images/discord.png"));
-            _apps.Add(new LegacyApp("Twitch Desktop", "TwitchSetup_[usher-48365501]", "/images/twitch.png"));
-            _apps.Add(new LegacyApp("Open Broadcaster Software (OBS)", "OBS-Studio-21.1.2-Full-Installer", "/images/obs.png"));
-            _apps.Add(new LegacyApp("Logitech G Hub", "lghub_installer_2018.7.2535", "/images/lgs.png"));
-            _apps.Add(new LegacyApp("Logitech Options", "Options_6.80.372", "/images/lgs.png"));
-            _apps.Add(new LegacyApp("Micorosft Office", "E:\\ISO\\O365HomePremRetail.img", "/images/lgs.png"));
-
-            _apps.Add(new LegacyApp("uTorrent", "uTorrent", "/images/CHANGEME.png"));
-            _apps.Add(new LegacyApp("VLC Media Player", "vlc-3.0.3-win64", "/images/CHANGEME.png"));
-            _apps.Add(new LegacyApp("WinRAR", "winrar-x64-560", "/images/CHANGEME.png"));
-            _apps.Add(new LegacyApp("TeamViewer", "TeamViewer_Setup", "/images/CHANGEME.png"));
-            _apps.Add(new LegacyApp("Android Messages", "android-messages-desktop-setup-0.3.0", "/images/CHANGEME.png"));
-            _apps.Add(new LegacyApp("Spotify", "android-messages-desktop-setup-0.3.0", "/images/CHANGEME.png"));
-            _apps.Add(new LegacyApp("Huion H950P Drivers", "android-messages-desktop-setup-0.3.0", "/images/CHANGEME.png"));
-            _apps.Add(new LegacyApp("Viber Desktop", "android-messages-desktop-setup-0.3.0", "/images/CHANGEME.png"));
-
-
-            return _apps;
         }
 
         public ObservableCollection<UWPApp> StoreApps()

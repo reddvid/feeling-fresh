@@ -33,12 +33,17 @@
     <AssemblyName>Feeling Fresh</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Images\feeling-fresh-icon.png" />
+    <None Remove="Mona-Sans.ttf" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\HelperLibrary\HelperLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\app.png" />
     <Resource Include="Images\cursor.png" />
     <Resource Include="Images\driver.png" />
+    <Resource Include="Images\feeling-fresh-icon.png" />
     <Resource Include="Images\font.png" />
     <Resource Include="Images\reg.png" />
     <Resource Include="Images\uwp.png" />
@@ -61,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="feeling-fresh-icon.ico" />
+    <Resource Include="Fonts\MonaSans.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\square-44x44.png" />

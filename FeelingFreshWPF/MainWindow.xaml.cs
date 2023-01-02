@@ -75,10 +75,10 @@ namespace FeelingFreshWPF
 
 		private async void DesktopAppsView_Loaded(object sender, RoutedEventArgs e)
 		{
-			await LaodDesktopApps();
+			await LoadDesktopApps();
 		}
 
-		private async Task LaodDesktopApps()
+		private async Task LoadDesktopApps()
 		{
 			DesktopApps = await DBHelper.GetApps();
 			DesktopAppsView.ItemsSource = DesktopApps;
@@ -125,10 +125,48 @@ namespace FeelingFreshWPF
 			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower())) return;
 
 			await DBHelper.AddApp(appName);
-			await LaodDesktopApps();
+			await LoadDesktopApps();
 
 			DesktopAppsView.SelectedIndex = DesktopAppsView.Items.Count - 1;
 			DesktopAppsView.ScrollIntoView(DesktopAppsView.SelectedItem);
+		}
+
+		private void alpha_Checked(object sender, RoutedEventArgs e)
+		{
+			bool? isChecked = alpha.IsChecked;
+
+			DesktopAppsView.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.AppId);
+
+			if (DesktopAppsView.SelectedIndex != -1) DesktopAppsView.ScrollIntoView(DesktopAppsView.SelectedItem);
+		}
+
+		private void btnSearchApp_Click(object sender, RoutedEventArgs e)
+		{
+			if (String.IsNullOrEmpty(InputAppName.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
+
+			var appName = InputAppName.Text;
+
+			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+			{
+				// Select Index
+				var item = DesktopApps.Where(x => x.AppName.ToLower() == appName.ToLower()).FirstOrDefault();
+				DesktopAppsView.SelectedIndex = DesktopAppsView.Items.IndexOf(item);
+				DesktopAppsView.ScrollIntoView(DesktopAppsView.SelectedItem);
+				return;
+			}
+		}
+
+		private async void deleteMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			var appName = (DesktopAppsView.SelectedItem as LegacyApp).AppName;
+
+			await DBHelper.RemoveApp(appName);
+			await LoadDesktopApps();
+		}
+
+		private void CustomMinimizeBtn_Click(object sender, RoutedEventArgs e)
+		{
+			App.Current.MainWindow.WindowState = WindowState.Minimized;
 		}
 	}
 }
