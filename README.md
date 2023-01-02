@@ -1,8 +1,25 @@
 # Feeling Fresh (FF)
 
-A Windows utility (personal) app built with WPF to fast-forward (FF) app installation after a fresh install of Windows OS.
+A personal Windows app built with WPF to fast-forward (FF) app installation after a fresh install of Windows OS.
 
-This app also helps uses SQL (MS SQL) commands by fetching list from a cloud database - adding, updating, and deleting app items.
+Most of app installers Ninite, and PatchMyPC can do better but their app list does not do it for me.
+
+This app uses SQL commands to fetching, add, update, and delete objects from a cloud database.
+
+## Notes
+* CRUD operations are inside a DBHelper class (gitignored).
+* Double-clicking App item will launch DuckDuckGo's I'm feeling lucky URL that will direct you (mostly) to the download page in a browser.
+* .exe installers are still downloaded on the machine and requires manual running
+* Requires prior database setup:
+  * Database name: AppsList
+  * Columns:
+  
+  | ID (PK) | AppName |
+  |---------|---------|
+  |    0    | VS Code |
+  |         |         |
+
+
 
 ## Screenshots
 ![Main Window](/assets/main-window.png)
