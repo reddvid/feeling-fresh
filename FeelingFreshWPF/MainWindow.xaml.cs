@@ -41,6 +41,8 @@ namespace FeelingFreshWPF
 		{
 			DesktopApps = await DBHelper.GetApps();
 			listViewAppList.ItemsSource = DesktopApps;
+
+			SortList();
 		}
 
 		private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -93,6 +95,11 @@ namespace FeelingFreshWPF
 
 		private void SortApps_Toggled(object sender, RoutedEventArgs e)
 		{
+			SortList();
+		}
+
+		private void SortList()
+		{
 			bool? isChecked = tggleBtnSort.IsChecked;
 
 			listViewAppList.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.AppId);
@@ -129,6 +136,7 @@ namespace FeelingFreshWPF
 		private async void EditApp_Click(object sender, RoutedEventArgs e)
 		{
 			var appName = (listViewAppList.SelectedItem as LegacyApp).AppName;
+			int currentIndex = listViewAppList.SelectedIndex;
 
 			Window editDialog = new Window
 			{
@@ -141,6 +149,9 @@ namespace FeelingFreshWPF
 
 			var d = editDialog.ShowDialog();
 			await LoadDesktopApps();
+
+			listViewAppList.SelectedIndex = currentIndex;
+			listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
 		}
 	}
 }
