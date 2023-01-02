@@ -48,17 +48,7 @@
     <Resource Include="Fonts\SegoeUIVar.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\app.png" />
-    <Resource Include="Images\cursor.png" />
-    <Resource Include="Images\driver.png" />
     <Resource Include="Images\feeling-fresh-icon.png" />
-    <Resource Include="Images\font.png" />
-    <Resource Include="Images\reg.png" />
-    <Resource Include="Images\uwp.png" />
-    <Resource Include="Images\vsix.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ff_new_Mub_icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.1">
@@ -77,9 +67,6 @@
     <Resource Include="Fonts\MonaSans.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\square-44x44.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
