@@ -33,6 +33,8 @@
     <AssemblyName>Feeling Fresh</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Fonts\OpenSans.ttf" />
+    <None Remove="Fonts\SegoeUIVar.ttf" />
     <None Remove="Images\feeling-fresh-icon.png" />
     <None Remove="Mona-Sans.ttf" />
   </ItemGroup>
@@ -40,6 +42,12 @@
     <ProjectReference Include="..\HelperLibrary\HelperLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\OpenSans.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\SegoeUIVar.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\app.png" />
     <Resource Include="Images\cursor.png" />
     <Resource Include="Images\driver.png" />

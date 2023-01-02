@@ -1,0 +1,42 @@
+﻿<UserControl
+	x:Class="Components.EditAppDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:Components"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:mwpf="http://schemas.modernwpf.com/2019"
+	d:DesignHeight="450"
+	d:DesignWidth="320"
+	Background="#272727"
+	FontFamily="/Fonts/#Mona Sans"
+	mc:Ignorable="d">
+
+	<Grid Margin="8">
+		<Grid.Resources>
+			<FontFamily x:Key="MonaSans">/Fonts/#Mona Sans</FontFamily>
+			<FontFamily x:Key="CustomFont">/Fonts/#Open Sans</FontFamily>
+		</Grid.Resources>
+		<StackPanel Grid.Row="1" Margin="0,8">
+			<TextBox
+				x:Name="tbxAppName"
+				mwpf:ControlHelper.Header="Enter new name:"
+				FontFamily="{StaticResource CustomFont}"
+				TextChanged="tbxAppName_TextChanged" />
+			<Button
+				x:Name="btnUpdate"
+				Margin="0,8"
+				HorizontalAlignment="Stretch"
+				Click="UpdateApp_Click"
+				Content="Update"
+				FontFamily="{StaticResource CustomFont}" />
+			<Button
+				x:Name="btnCancel"
+				HorizontalAlignment="Stretch"
+				Click="CloseDialog_Click"
+				Content="Cancel"
+				FontFamily="{StaticResource CustomFont}"
+				Foreground="#FF6D6D" />
+		</StackPanel>
+	</Grid>
+</UserControl>
