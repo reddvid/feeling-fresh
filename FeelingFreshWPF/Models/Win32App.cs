@@ -10,11 +10,5 @@ namespace Models
 		public string AppName { get; set; }
 
 		public Win32App() { }
-
-		public Win32App(string name, int id)
-		{
-			Id = id;
-			AppName = name;
-		}
 	}
 }
