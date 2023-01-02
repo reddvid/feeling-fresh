@@ -18,7 +18,7 @@ This app uses SQL commands to fetching, add, update, and delete objects from a c
   |---------|---------|
   |    0    | VS Code |
   |         |         |
-
+* DBHelper.cs boilerplate is inside assets/Helpers/
 
 
 ## Screenshots
