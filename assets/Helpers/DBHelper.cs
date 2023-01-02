@@ -25,20 +25,18 @@ namespace FeelingFreshWPF.Helpers
 			try
 			{
 				string query = "INSERT INTO AppsList VALUES ('" + appName + "')";
-				using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+				using SqlConnection connection = new(CONNECTION_STRING);
+				using (SqlCommand cmdRead = new(query, connection))
 				{
-					using (SqlCommand cmdRead = new SqlCommand(query, connection))
-					{
-						connection.Open();
-						await cmdRead.ExecuteReaderAsync();
-					}
-
-					connection?.Close();
+					connection.Open();
+					await cmdRead.ExecuteReaderAsync();
 				}
+
+				connection?.Close();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Error while adding value\n" + ex);
+				MessageBox.Show("Error while adding value" + ex);
 			}
 		}
 
@@ -49,32 +47,30 @@ namespace FeelingFreshWPF.Helpers
 			try
 			{
 				string query = "SELECT * FROM AppsList";
-				using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+				using SqlConnection connection = new(CONNECTION_STRING);
+				using (SqlCommand cmdRead = new(query, connection))
 				{
-					using (SqlCommand cmdRead = new SqlCommand(query, connection))
+					connection.Open();
+					using SqlDataReader reader = await cmdRead.ExecuteReaderAsync();
+					if (reader != null)
 					{
-						connection.Open();
-						using (SqlDataReader reader = await cmdRead.ExecuteReaderAsync())
+						while (reader.Read() && !string.IsNullOrWhiteSpace(reader.GetString(0)))
 						{
-							if (reader != null)
+							var app = new Win32App
 							{
-								while (reader.Read() && !string.IsNullOrWhiteSpace(reader.GetString(0)))
-								{
-									var app = new Win32App();
-									app.AppName = reader.GetString(0);
-									app.Id = reader.GetInt32(1);
-									list.Add(app);
-								}
-							}
+								AppName = reader.GetString(0),
+								Id = reader.GetInt32(1)
+							};
+							list.Add(app);
 						}
 					}
-
-					connection?.Close();
 				}
+
+				connection?.Close();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Error while loading apps\n" + ex);
+				MessageBox.Show("Error while loading available tables" + ex);
 			}
 
 			return list;
@@ -85,20 +81,18 @@ namespace FeelingFreshWPF.Helpers
 			try
 			{
 				string query = "DELETE FROM AppsList WHERE AppName='" + appName + "'";
-				using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+				using SqlConnection connection = new(CONNECTION_STRING);
+				using (SqlCommand cmdRead = new(query, connection))
 				{
-					using (SqlCommand cmdRead = new SqlCommand(query, connection))
-					{
-						connection.Open();
-						await cmdRead.ExecuteReaderAsync();
-					}
-
-					connection?.Close();
+					connection.Open();
+					await cmdRead.ExecuteReaderAsync();
 				}
+
+				connection?.Close();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Error while removing value\n" + ex);
+				MessageBox.Show("Error while removing value" + ex);
 			}
 		}
 
@@ -107,20 +101,18 @@ namespace FeelingFreshWPF.Helpers
 			try
 			{
 				string query = "UPDATE AppsList SET AppName='" + newAppName + "' WHERE AppName=('" + originalAppName + "')";
-				using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+				using SqlConnection connection = new(CONNECTION_STRING);
+				using (SqlCommand cmdRead = new(query, connection))
 				{
-					using (SqlCommand cmdRead = new SqlCommand(query, connection))
-					{
-						connection.Open();
-						await cmdRead.ExecuteReaderAsync();
-					}
-
-					connection?.Close();
+					connection.Open();
+					await cmdRead.ExecuteReaderAsync();
 				}
+
+				connection?.Close();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Error while updating value\n" + ex);
+				MessageBox.Show("Error while updating value" + ex);
 			}
 		}
 	}
