@@ -1,156 +1,144 @@
 ﻿using Components;
-using FeelingFreshWPF.Helpers;
 using Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Windows.System;
-using Windows.UI.Popups;
+using FeelingFreshWPF.Helpers;
 
 namespace FeelingFreshWPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-	{
-		ObservableCollection<Win32App> DesktopApps { get; set; } = new ObservableCollection<Win32App>();
-		public MainWindow()
-		{
-			InitializeComponent();
-		}
+  public partial class MainWindow : Window
+  {
+    ObservableCollection<Win32App> DesktopApps { get; set; } = new ObservableCollection<Win32App>();
+    public MainWindow()
+    {
+      InitializeComponent();
+    }
 
-		private async void AppList_Loaded(object sender, RoutedEventArgs e)
-		{
-			await LoadDesktopApps();
-		}
+    private async void AppList_Loaded(object sender, RoutedEventArgs e)
+    {
+      await LoadDesktopApps();
+    }
 
-		private async Task LoadDesktopApps()
-		{
-			DesktopApps = await DBHelper.GetApps();
-			listViewAppList.ItemsSource = DesktopApps;
+    private async Task LoadDesktopApps()
+    {
+      DesktopApps = await DBHelper.GetApps();
+      listViewAppList.ItemsSource = DesktopApps;
 
-			SortList();
-		}
+      SortList();
+    }
 
-		private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			var item = (sender as ListView).SelectedItem as Win32App;
+    private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      var item = (sender as ListView).SelectedItem as Win32App;
 
-			if (item != null)
-			{
-				await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+download+for+windows+" + item.AppName));
-			}
-		}
+      if (item != null)
+      {
+        await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+download+for+windows+" + item.AppName));
+      }
+    }
 
-		private void CloseWindow_Click(object sender, RoutedEventArgs e)
-		{
-			Application.Current.Shutdown();
-		}
+    private void CloseWindow_Click(object sender, RoutedEventArgs e)
+    {
+      Application.Current.Shutdown();
+    }
 
-		private async void AddApp_Click(object sender, RoutedEventArgs e)
-		{
-			if (String.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
+    private async void AddApp_Click(object sender, RoutedEventArgs e)
+    {
+      if (String.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
 
-			var appName = tbxInput.Text;
+      var appName = tbxInput.Text;
 
-			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
-			{
-				// Select Index
-				SearchAndScroll(appName);
-			}
+      if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+      {
+        // Select Index
+        SearchAndScroll(appName);
+      }
 
-			await DBHelper.AddApp(appName);
-			await LoadDesktopApps();
+      await DBHelper.AddApp(appName);
+      await LoadDesktopApps();
 
-			listViewAppList.SelectedIndex = listViewAppList.Items.Count - 1;
-			listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
-		}
+      listViewAppList.SelectedIndex = listViewAppList.Items.Count - 1;
+      listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+    }
 
-		private void SearchAndScroll(string appName)
-		{
-			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
-			{
-				// Select Index
-				var item = DesktopApps.Where(x => x.AppName.ToLower() == appName.ToLower()).FirstOrDefault();
-				listViewAppList.SelectedIndex = listViewAppList.Items.IndexOf(item);
-				listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
-				return;
-			}
-		}
+    private void SearchAndScroll(string appName)
+    {
+      if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+      {
+        // Select Index
+        var item = DesktopApps.Where(x => x.AppName.ToLower() == appName.ToLower()).FirstOrDefault();
+        listViewAppList.SelectedIndex = listViewAppList.Items.IndexOf(item);
+        listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
 
-		private void SortApps_Toggled(object sender, RoutedEventArgs e)
-		{
-			SortList();
-		}
+        return;
+      }
+    }
 
-		private void SortList()
-		{
-			bool? isChecked = tggleBtnSort.IsChecked;
+    private void SortApps_Toggled(object sender, RoutedEventArgs e)
+    {
+      SortList();
+    }
 
-			listViewAppList.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.Id);
+    private void SortList()
+    {
+      bool? isChecked = tggleBtnSort.IsChecked;
 
-			if (listViewAppList.SelectedIndex != -1) listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
-		}
+      listViewAppList.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.Id);
 
-		private void SearchApp_Click(object sender, RoutedEventArgs e)
-		{
-			if (String.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
+      if (listViewAppList.SelectedIndex != -1) listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+    }
 
-			var appName = tbxInput.Text;
+    private void SearchApp_Click(object sender, RoutedEventArgs e)
+    {
+      if (String.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
 
-			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
-			{
-				// Select Index
-				SearchAndScroll(appName);
-			}
-		}
+      var appName = tbxInput.Text;
 
-		private async void DeleteApp_Click(object sender, RoutedEventArgs e)
-		{
-			var appName = (listViewAppList.SelectedItem as Win32App).AppName;
+      if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+      {
+        // Select Index
+        SearchAndScroll(appName);
+      }
+    }
 
-			await DBHelper.RemoveApp(appName);
-			await LoadDesktopApps();
-		}
+    private async void DeleteApp_Click(object sender, RoutedEventArgs e)
+    {
+      var appName = (listViewAppList.SelectedItem as Win32App).AppName;
 
-		private void CustomMinimizeBtn_Click(object sender, RoutedEventArgs e)
-		{
-			App.Current.MainWindow.WindowState = WindowState.Minimized;
-		}
+      await DBHelper.RemoveApp(appName);
+      await LoadDesktopApps();
+    }
 
-		private async void EditApp_Click(object sender, RoutedEventArgs e)
-		{
-			var appName = (listViewAppList.SelectedItem as Win32App).AppName;
-			int currentIndex = listViewAppList.SelectedIndex;
+    private void CustomMinimizeBtn_Click(object sender, RoutedEventArgs e)
+    {
+      App.Current.MainWindow.WindowState = WindowState.Minimized;
+    }
 
-			Window editDialog = new Window
-			{
-				ResizeMode = ResizeMode.NoResize,
-				Title = "Edit App",
-				Content = new EditAppDialog(appName),
-				MaxWidth = 380,
-				MaxHeight = 220
-			};
+    private async void EditApp_Click(object sender, RoutedEventArgs e)
+    {
+      var appName = (listViewAppList.SelectedItem as Win32App).AppName;
+      int currentIndex = listViewAppList.SelectedIndex;
 
-			var d = editDialog.ShowDialog();
-			await LoadDesktopApps();
+      Window editDialog = new Window
+      {
+        ResizeMode = ResizeMode.NoResize,
+        Title = "Edit App",
+        Content = new EditAppDialog(appName),
+        MaxWidth = 380,
+        MaxHeight = 220
+      };
 
-			listViewAppList.SelectedIndex = currentIndex;
-			listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
-		}
-	}
+      var d = editDialog.ShowDialog();
+      await LoadDesktopApps();
+
+      listViewAppList.SelectedIndex = currentIndex;
+      listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+    }
+  }
 }
