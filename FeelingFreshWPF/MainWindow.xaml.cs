@@ -12,7 +12,7 @@ using FeelingFreshWPF.Helpers;
 
 namespace FeelingFreshWPF
 {
-  public partial class MainWindow : Window
+  public partial class MainWindow : Wpf.Ui.Controls.UiWindow
   {
     ObservableCollection<Win32App> DesktopApps { get; set; } = new ObservableCollection<Win32App>();
     public MainWindow()

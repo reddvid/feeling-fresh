@@ -5,14 +5,21 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Hosting;
 
-namespace FeelingFreshWPF
+namespace FeelingFreshWPF;
+
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public static IHost AppHost { get; private set; }
+
+    public App()
     {
-        //AppCenter.Start("1bdec1f3-791c-4402-9515-4c2fa2785389", typeof(Analytics));
+        AppHost = Host.CreateDefaultBuilder()
+            .ConfigureServices((hostContext, services) =>
+            {
+    
+            })
+            .Build();
     }
 }

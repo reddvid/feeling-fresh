@@ -2,15 +2,14 @@
 	x:Class="FeelingFreshWPF.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	xmlns:local="clr-namespace:FeelingFreshWPF"
-	xmlns:ui="http://schemas.modernwpf.com/2019"
+	xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
 	StartupUri="MainWindow.xaml">
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ui:ThemeResources />
-				<ui:XamlControlsResources />
+				<ui:ThemesDictionary Theme="Dark" />
+				<ui:ControlsDictionary />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
