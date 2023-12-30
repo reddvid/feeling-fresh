@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace FeelingFresh.UI.WPF.Models;
 
-namespace Models
+public class Win32App
 {
-  public class Win32App
-  {
     public int Id { get; set; }
-    public string AppName { get; set; }
-  }
+    public string? AppName { get; set; }
 }

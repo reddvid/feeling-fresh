@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeelingFresh.UI.WPF", "FeelingFresh.UI.WPF\FeelingFresh.UI.WPF.csproj", "{3B6D51FC-96E5-41C1-BD2D-471FAEB5085B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeelingFresh.Library", "FeelingFresh.Library\FeelingFresh.Library.csproj", "{F348C09E-DE9D-44B2-875E-BF4390225783}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,26 @@ Global
 		{3B6D51FC-96E5-41C1-BD2D-471FAEB5085B}.Release|x64.Build.0 = Release|Any CPU
 		{3B6D51FC-96E5-41C1-BD2D-471FAEB5085B}.Release|x86.ActiveCfg = Release|Any CPU
 		{3B6D51FC-96E5-41C1-BD2D-471FAEB5085B}.Release|x86.Build.0 = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|x64.Build.0 = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Debug|x86.Build.0 = Debug|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|ARM.Build.0 = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|ARM64.Build.0 = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|x64.ActiveCfg = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|x64.Build.0 = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|x86.ActiveCfg = Release|Any CPU
+		{F348C09E-DE9D-44B2-875E-BF4390225783}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
