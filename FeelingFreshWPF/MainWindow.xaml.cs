@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Windows.System;
 using FeelingFreshWPF.Helpers;
+using Windows.System;
 
 namespace FeelingFreshWPF
 {
@@ -35,11 +35,11 @@ namespace FeelingFreshWPF
 
     private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      var item = (sender as ListView).SelectedItem as Win32App;
-
-      if (item != null)
+      if ((sender as ListView)?.SelectedItem is Win32App item)
       {
+#pragma warning disable CA1416
         await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+download+for+windows+" + item.AppName));
+#pragma warning restore CA1416
       }
     }
 

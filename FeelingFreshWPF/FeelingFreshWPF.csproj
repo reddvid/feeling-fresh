@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>D:\OneDrive\Apps\</PublishUrl>
@@ -103,4 +103,9 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
     <PackageReference Include="WPF-UI" Version="2.1.0" />
   </ItemGroup>
+<!--  <ItemGroup>-->
+<!--    <Reference Include="Windows">-->
+<!--      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>-->
+<!--    </Reference>-->
+<!--  </ItemGroup>-->
 </Project>
