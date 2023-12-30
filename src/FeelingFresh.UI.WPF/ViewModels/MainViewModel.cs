@@ -5,13 +5,20 @@ using FeelingFresh.Library;
 
 namespace FeelingFresh.UI.WPF.ViewModels;
 
-public partial class MainViewModel(IDataAccess data) : ObservableObject
+public partial class MainViewModel : ObservableObject
 {
-    private readonly IDataAccess _data = data;
+    private readonly IDataAccess _data;
+    
+    public MainViewModel(IDataAccess data)
+    {
+        _data = data;
+        
+        
+    }
 
     [RelayCommand]
     private async Task GetData()
     {
-        _data.GetData();
+        
     }
 }
