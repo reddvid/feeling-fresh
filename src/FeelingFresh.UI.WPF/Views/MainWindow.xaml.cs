@@ -9,6 +9,7 @@ using Windows.System;
 using FeelingFresh.UI.WPF.Components;
 using FeelingFresh.UI.WPF.Helpers;
 using FeelingFresh.UI.WPF.Models;
+using FeelingFresh.UI.WPF.ViewModels;
 
 namespace FeelingFresh.UI.WPF.Views;
 
@@ -16,14 +17,15 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
 {
     ObservableCollection<Win32App> DesktopApps { get; set; } = new ObservableCollection<Win32App>();
 
-    public MainWindow()
+    public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
+        this.DataContext = viewModel;
     }
 
     private async void AppList_Loaded(object sender, RoutedEventArgs e)
     {
-        await LoadDesktopApps();
+        await ((DataContext as MainViewModel)!).GetDataCommand.ExecuteAsync(default);
     }
 
     private async Task LoadDesktopApps()

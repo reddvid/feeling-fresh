@@ -6,6 +6,7 @@
 	xmlns:local="clr-namespace:FeelingFresh.UI.WPF"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+	xmlns:viewModels="clr-namespace:FeelingFresh.UI.WPF.ViewModels"
 	Title="Feeling Fresh"
 	Width="720"
 	Height="520"
@@ -20,6 +21,7 @@
 	mc:Ignorable="d">
 
 	<Window.Resources>
+		<viewModels:MainViewModel x:Key="ViewModel"/>
 		<FontFamily x:Key="MonaSans">/Fonts/#Mona Sans</FontFamily>
 		<FontFamily x:Key="CustomFont">/Fonts/#Open Sans</FontFamily>
 	</Window.Resources>
@@ -30,7 +32,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<ui:TitleBar Grid.Row="0" />
+		<ui:TitleBar Grid.Row="0" Title="Feeling Fresh"/>
 
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
@@ -81,7 +83,7 @@
 				x:Name="listViewAppList"
 				Grid.Row="1"
 				BorderThickness="0"
-				Loaded="AppList_Loaded"
+				Loaded="AppList_Loaded" ItemsSource="{Binding ViewModel.Apps}"
 				MouseDoubleClick="AppList_MouseDoubleClick">
 				<ListView.ContextMenu>
 					<ContextMenu>

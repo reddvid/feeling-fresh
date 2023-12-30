@@ -6,9 +6,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using FeelingFresh.Library;
+using FeelingFresh.Library.Data;
+using FeelingFresh.Library.Logging;
+using FeelingFresh.Library.Repositories;
+using FeelingFresh.Library.Services;
 using FeelingFresh.UI.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace FeelingFresh.UI.WPF;
 
@@ -22,7 +27,10 @@ public partial class App : Application
             .ConfigureServices((hostContext, services) =>
             {
                 services.AddSingleton<MainWindow>();
-                services.AddTransient<IDataAccess, DataAccess>();
+                services.AddTransient<IAppRepository, AppRepository>();
+                services.AddTransient<IAppService, AppService>();
+                services.AddTransient<ISqlDbConnectionFactory, SqlDbConnectionFactory>();
+                services.AddTransient<ILoggerAdapter<object>, LoggerAdapter<object>>();
             })
             .Build();
     }
