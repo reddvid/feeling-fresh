@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using FeelingFresh.UI.WPF.Helpers;
 
-namespace FeelingFresh.UI.WPF.Components
+namespace FeelingFresh.UI.WPF.Controls
 {
     /// <summary>
     /// Interaction logic for EditAppDialog.xaml

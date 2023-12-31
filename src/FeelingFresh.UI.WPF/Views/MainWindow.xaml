@@ -24,6 +24,7 @@
         <FontFamily x:Key="MonaSans">/Fonts/#Mona Sans</FontFamily>
         <FontFamily x:Key="CustomFont">/Fonts/#Open Sans</FontFamily>
         <converters:BooleanToVisibility x:Key="BooleanToVisibility" />
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -69,7 +70,10 @@
                     Foreground="White"
                     ToolTip="Add" />
                 <ToggleButton
+                    IsEnabled="{Binding IsLoading, Converter={StaticResource BoolNegationConverter}}"
                     x:Name="tggleBtnSort"
+                    Unchecked="SortApps_Toggled"
+                    Checked="SortApps_Toggled"
                     Grid.Column="3"
                     Margin="0,0,8,0" 
                     Command="{Binding SortDataCommand}"

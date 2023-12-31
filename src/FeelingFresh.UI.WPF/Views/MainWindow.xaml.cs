@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Windows.System;
 using FeelingFresh.UI.WPF.Controls;
@@ -131,4 +132,5 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
         AppList.SelectedIndex = currentIndex;
         AppList.ScrollIntoView(AppList.SelectedItem);
     }
+
 }
