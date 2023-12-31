@@ -32,11 +32,10 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
 
     private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        if (AppList.SelectedItem is Win32App item)
-        {
-            await Launcher.LaunchUriAsync(
-                new Uri($"https://duckduckgo.com/?q=!ducky+download+for+windows+{item.AppName}"));
-        }
+        var item = (DataContext as MainViewModel).SelectedItem;
+
+        await Launcher.LaunchUriAsync(
+            new Uri($"https://duckduckgo.com/?q=!ducky+download+for+windows+{item.AppName}"));
     }
 
     private void CloseWindow_Click(object sender, RoutedEventArgs e)

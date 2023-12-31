@@ -80,7 +80,7 @@
                     IsChecked="{Binding IsSorted, Mode=TwoWay}" 
                     Content="&#xE174;"
                     FontFamily="Segoe MDL2 Assets"
-                    Foreground="White"
+                    Foreground="White" 
                     ToolTip="Sort alphabetically (A-Z)" />
             </Grid>
             <ui:ProgressRing
@@ -92,7 +92,7 @@
                 Grid.Row="1"
                 Margin="8,0"
                 SelectionMode="Single"
-                BorderThickness="0"
+                BorderThickness="0" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                 Loaded="AppList_Loaded"
                 ItemsSource="{Binding Apps}"
                 MouseDoubleClick="AppList_MouseDoubleClick">
