@@ -1,123 +1,131 @@
 ﻿<ui:UiWindow
-	x:Class="FeelingFresh.UI.WPF.Views.MainWindow"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:FeelingFresh.UI.WPF"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-	xmlns:viewModels="clr-namespace:FeelingFresh.UI.WPF.ViewModels"
-	Title="Feeling Fresh"
-	Width="720"
-	Height="520"
-	Background="{ui:ThemeResource ApplicationBackgroundBrush}"
-	ExtendsContentIntoTitleBar="True"
-	FontFamily="Segoe UI Variable Display"
-	Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-	ResizeMode="CanMinimize"
-	WindowBackdropType="Mica"
-	WindowCornerPreference="Round"
-	WindowStartupLocation="CenterScreen"
-	mc:Ignorable="d">
+    x:Class="FeelingFresh.UI.WPF.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FeelingFresh.UI.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:converters="clr-namespace:FeelingFresh.UI.WPF.Converters"
+    Title="Feeling Fresh"
+    Width="720"
+    Height="520"
+    Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+    ExtendsContentIntoTitleBar="True"
+    FontFamily="Segoe UI Variable Display"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ResizeMode="CanMinimize"
+    WindowBackdropType="Mica"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
 
-	<Window.Resources>
-		<FontFamily x:Key="MonaSans">/Fonts/#Mona Sans</FontFamily>
-		<FontFamily x:Key="CustomFont">/Fonts/#Open Sans</FontFamily>
-	</Window.Resources>
+    <Window.Resources>
+        <FontFamily x:Key="MonaSans">/Fonts/#Mona Sans</FontFamily>
+        <FontFamily x:Key="CustomFont">/Fonts/#Open Sans</FontFamily>
+        <converters:BooleanToVisibility x:Key="BooleanToVisibility" />
+    </Window.Resources>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-		<ui:TitleBar Grid.Row="0" Title="Feeling Fresh"/>
+        <ui:TitleBar Grid.Row="0" Title="Feeling Fresh" />
 
-		<Grid Grid.Row="1">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-			<Grid Margin="8">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<ui:TextBox
-					x:Name="tbxInput"
-					Margin="8,0"
-					FontFamily="{StaticResource CustomFont}"
-					PlaceholderText="Search or add an app" />
-				<Button
-					x:Name="btnSearchApp"
-					Grid.Column="1"
-					Click="SearchApp_Click"
-					Content="&#xE721;"
-					FontFamily="Segoe MDL2 Assets"
-					Foreground="White"
-					ToolTip="Search" />
-				<Button
-					x:Name="btnAddApp"
-					Grid.Column="2"
-					Margin="8,0"
-					Click="AddApp_Click"
-					Content="&#xE109;"
-					FontFamily="Segoe MDL2 Assets"
-					Foreground="White"
-					ToolTip="Add" />
-				<ToggleButton
-					x:Name="tggleBtnSort"
-					Grid.Column="3"
-					Margin="0,0,8,0"
-					Checked="SortApps_Toggled"
-					Content="&#xE174;"
-					FontFamily="Segoe MDL2 Assets"
-					Foreground="White"
-					ToolTip="Sort alphabetically (A-Z)"
-					Unchecked="SortApps_Toggled" />
-			</Grid>
-			<ListView
-				x:Name="listViewAppList"
-				Grid.Row="1"
-				BorderThickness="0"
-				Loaded="AppList_Loaded" ItemsSource="{Binding Apps}"
-				MouseDoubleClick="AppList_MouseDoubleClick">
-				<ListView.ContextMenu>
-					<ContextMenu>
-						<MenuItem
-							Click="EditApp_Click"
-							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
-							FontFamily="{StaticResource CustomFont}"
-							Header="Edit" />
-						<MenuItem
-							Click="DeleteApp_Click"
-							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
-							FontFamily="{StaticResource CustomFont}"
-							Foreground="#FF6D6D"
-							Header="Delete" />
-					</ContextMenu>
-				</ListView.ContextMenu>
-				<ListView.ItemsPanel>
-					<ItemsPanelTemplate>
-						<UniformGrid
-							MaxWidth="680"
-							HorizontalAlignment="Left"
-							Columns="2" />
-					</ItemsPanelTemplate>
-				</ListView.ItemsPanel>
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<TextBlock
-							Margin="8,0,0,0"
-							VerticalAlignment="Center"
-							FontFamily="{StaticResource CustomFont}"
-							Text="{Binding AppName}"
-							TextWrapping="WrapWithOverflow" />
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
-		</Grid>
-	</Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:TextBox
+                    x:Name="tbxInput"
+                    Margin="8,0"
+                    FontFamily="{StaticResource CustomFont}"
+                    PlaceholderText="Search or add an app" />
+                <Button
+                    x:Name="btnSearchApp"
+                    Grid.Column="1"
+                    Click="SearchApp_Click"
+                    Content="&#xE721;"
+                    FontFamily="Segoe MDL2 Assets"
+                    Foreground="White"
+                    ToolTip="Search" />
+                <Button
+                    x:Name="btnAddApp"
+                    Grid.Column="2"
+                    Margin="8,0"
+                    Click="AddApp_Click"
+                    Content="&#xE109;"
+                    FontFamily="Segoe MDL2 Assets"
+                    Foreground="White"
+                    ToolTip="Add" />
+                <ToggleButton
+                    x:Name="tggleBtnSort"
+                    Grid.Column="3"
+                    Margin="0,0,8,0" 
+                    Command="{Binding SortDataCommand}"
+                    IsChecked="{Binding IsSorted, Mode=TwoWay}" 
+                    Content="&#xE174;"
+                    FontFamily="Segoe MDL2 Assets"
+                    Foreground="White"
+                    ToolTip="Sort alphabetically (A-Z)" />
+            </Grid>
+            <ui:ProgressRing
+                Grid.Row="1" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}"
+                VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}"
+                HorizontalAlignment="Center" />
+            <ListView
+                x:Name="AppList"
+                Grid.Row="1"
+                Margin="8,0"
+                SelectionMode="Single"
+                BorderThickness="0"
+                Loaded="AppList_Loaded"
+                ItemsSource="{Binding Apps}"
+                MouseDoubleClick="AppList_MouseDoubleClick">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            Click="EditApp_Click"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                            FontFamily="{StaticResource CustomFont}"
+                            Header="Edit" />
+                        <MenuItem
+                            Click="DeleteApp_Click"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                            FontFamily="{StaticResource CustomFont}"
+                            Foreground="#FF6D6D"
+                            Header="Delete" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid
+                            MaxWidth="680"
+                            HorizontalAlignment="Left"
+                            Columns="2" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource CustomFont}"
+                            Text="{Binding AppName}"
+                            TextWrapping="WrapWithOverflow" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
 </ui:UiWindow>

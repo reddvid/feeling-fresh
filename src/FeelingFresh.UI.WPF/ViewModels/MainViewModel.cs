@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FeelingFresh.Library;
@@ -15,6 +17,12 @@ public partial class MainViewModel : ObservableObject
     private readonly IAppRepository _repository;
 
     [ObservableProperty] private ObservableCollection<Win32App> _apps;
+
+    [ObservableProperty] private Win32App _selectedItem;
+
+    [ObservableProperty] private bool _isLoading;
+
+    [ObservableProperty] private bool _isSorted;
     
     public MainViewModel(ILoggerAdapter<MainViewModel> logger, IAppRepository repository)
     {
@@ -25,8 +33,27 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task GetData()
     {
-       Apps = new ObservableCollection<Win32App>(await _repository.GetAllAsync());
-       
-       OnPropertyChanged(nameof(Apps));
+        IsLoading = true;
+        
+        Apps = new ObservableCollection<Win32App>(await _repository.GetAllAsync());
+
+        IsLoading = false;
+    }
+
+    [RelayCommand]
+    private void SortData()
+    {
+        if (Apps.Count == 0) return;
+
+        if (IsSorted)
+        {
+          Apps = new ObservableCollection<Win32App>(Apps?.OrderBy(x => x.AppName));
+        }
+        else
+        {
+          Apps = new ObservableCollection<Win32App>(Apps?.OrderBy(x => x.Id));
+        }
+        
+        OnPropertyChanged(nameof(Apps));
     }
 }

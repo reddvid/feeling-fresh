@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Windows.System;
-using FeelingFresh.UI.WPF.Components;
+using FeelingFresh.UI.WPF.Controls;
 using FeelingFresh.UI.WPF.Helpers;
 using FeelingFresh.UI.WPF.Models;
 using FeelingFresh.UI.WPF.ViewModels;
@@ -25,24 +25,16 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
     private async void AppList_Loaded(object sender, RoutedEventArgs e)
     {
         await ((DataContext as MainViewModel)!).GetDataCommand.ExecuteAsync(default);
-    }
-
-    private async Task LoadDesktopApps()
-    {
-        DesktopApps = await DBHelper.GetApps();
-        listViewAppList.ItemsSource = DesktopApps;
-
+        
         SortList();
     }
 
     private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        if ((sender as ListView)?.SelectedItem is Win32App item)
+        if (AppList.SelectedItem is Win32App item)
         {
-#pragma warning disable CA1416
-            await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+download+for+windows+" +
-                                                  item.AppName));
-#pragma warning restore CA1416
+            await Launcher.LaunchUriAsync(
+                new Uri($"https://duckduckgo.com/?q=!ducky+download+for+windows+{item.AppName}"));
         }
     }
 
@@ -64,10 +56,10 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
         }
 
         await DBHelper.AddApp(appName);
-        await LoadDesktopApps();
+        // await LoadDesktopApps();
 
-        listViewAppList.SelectedIndex = listViewAppList.Items.Count - 1;
-        listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+        AppList.SelectedIndex = AppList.Items.Count - 1;
+        AppList.ScrollIntoView(AppList.SelectedItem);
     }
 
     private void SearchAndScroll(string appName)
@@ -76,8 +68,8 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
         {
             // Select Index
             var item = DesktopApps.Where(x => x.AppName.ToLower() == appName.ToLower()).FirstOrDefault();
-            listViewAppList.SelectedIndex = listViewAppList.Items.IndexOf(item);
-            listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+            AppList.SelectedIndex = AppList.Items.IndexOf(item);
+            AppList.ScrollIntoView(AppList.SelectedItem);
 
             return;
         }
@@ -90,12 +82,7 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
 
     private void SortList()
     {
-        bool? isChecked = tggleBtnSort.IsChecked;
-
-        listViewAppList.ItemsSource =
-            (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.Id);
-
-        if (listViewAppList.SelectedIndex != -1) listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+        if (AppList.SelectedIndex != -1) AppList.ScrollIntoView(AppList.SelectedItem);
     }
 
     private void SearchApp_Click(object sender, RoutedEventArgs e)
@@ -113,10 +100,10 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
 
     private async void DeleteApp_Click(object sender, RoutedEventArgs e)
     {
-        var appName = (listViewAppList.SelectedItem as Win32App).AppName;
+        var appName = (AppList.SelectedItem as Win32App).AppName;
 
         await DBHelper.RemoveApp(appName);
-        await LoadDesktopApps();
+        // await LoadDesktopApps();
     }
 
     private void CustomMinimizeBtn_Click(object sender, RoutedEventArgs e)
@@ -126,8 +113,8 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
 
     private async void EditApp_Click(object sender, RoutedEventArgs e)
     {
-        var appName = (listViewAppList.SelectedItem as Win32App).AppName;
-        int currentIndex = listViewAppList.SelectedIndex;
+        var appName = (AppList.SelectedItem as Win32App).AppName;
+        int currentIndex = AppList.SelectedIndex;
 
         Window editDialog = new Window
         {
@@ -139,9 +126,9 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
         };
 
         var d = editDialog.ShowDialog();
-        await LoadDesktopApps();
+        // await LoadDesktopApps();
 
-        listViewAppList.SelectedIndex = currentIndex;
-        listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
+        AppList.SelectedIndex = currentIndex;
+        AppList.ScrollIntoView(AppList.SelectedItem);
     }
 }
