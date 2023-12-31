@@ -8,12 +8,15 @@ using System.Windows;
 using FeelingFresh.Library;
 using FeelingFresh.Library.Data;
 using FeelingFresh.Library.Logging;
+using FeelingFresh.Library.Options;
 using FeelingFresh.Library.Repositories;
 using FeelingFresh.Library.Services;
+using FeelingFresh.UI.WPF.ViewModels;
 using FeelingFresh.UI.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FeelingFresh.UI.WPF;
 
@@ -24,25 +27,25 @@ public partial class App : Application
     public App()
     {
         AppHost = Host.CreateDefaultBuilder()
-            .ConfigureServices((hostContext, services) =>
+            .ConfigureServices((_, services) =>
             {
+                services.AddScoped<IAppRepository, AppRepository>();
+                services.AddScoped<ILoggerAdapter<MainViewModel>, LoggerAdapter<MainViewModel>>();
+                services.AddScoped<IAppService, AppService>();
+                services.AddScoped<SqlDbConnectionFactory>();
+                services.AddScoped<MainViewModel>();
                 services.AddSingleton<MainWindow>();
-                services.AddTransient<IAppRepository, AppRepository>();
-                services.AddTransient<IAppService, AppService>();
-                services.AddTransient<ISqlDbConnectionFactory, SqlDbConnectionFactory>();
-                services.AddTransient<ILoggerAdapter<object>, LoggerAdapter<object>>();
             })
             .Build();
     }
 
     protected override async void OnStartup(StartupEventArgs e)
     {
+        base.OnStartup(e);
+        
         await AppHost!.StartAsync();
-
         var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
         startupForm.Show();
-        
-        base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e)

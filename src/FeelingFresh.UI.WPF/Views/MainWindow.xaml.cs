@@ -16,11 +16,10 @@ namespace FeelingFresh.UI.WPF.Views;
 public partial class MainWindow : Wpf.Ui.Controls.UiWindow
 {
     ObservableCollection<Win32App> DesktopApps { get; set; } = new ObservableCollection<Win32App>();
-
     public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
-        this.DataContext = viewModel;
+        DataContext = viewModel;
     }
 
     private async void AppList_Loaded(object sender, RoutedEventArgs e)

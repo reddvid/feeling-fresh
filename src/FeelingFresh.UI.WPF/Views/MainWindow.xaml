@@ -21,7 +21,6 @@
 	mc:Ignorable="d">
 
 	<Window.Resources>
-		<viewModels:MainViewModel x:Key="ViewModel"/>
 		<FontFamily x:Key="MonaSans">/Fonts/#Mona Sans</FontFamily>
 		<FontFamily x:Key="CustomFont">/Fonts/#Open Sans</FontFamily>
 	</Window.Resources>
@@ -83,7 +82,7 @@
 				x:Name="listViewAppList"
 				Grid.Row="1"
 				BorderThickness="0"
-				Loaded="AppList_Loaded" ItemsSource="{Binding ViewModel.Apps}"
+				Loaded="AppList_Loaded" ItemsSource="{Binding Apps}"
 				MouseDoubleClick="AppList_MouseDoubleClick">
 				<ListView.ContextMenu>
 					<ContextMenu>

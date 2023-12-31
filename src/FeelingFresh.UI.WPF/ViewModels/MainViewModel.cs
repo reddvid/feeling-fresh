@@ -14,7 +14,7 @@ public partial class MainViewModel : ObservableObject
     private readonly ILoggerAdapter<MainViewModel> _logger;
     private readonly IAppRepository _repository;
 
-    public ObservableCollection<Win32App> Apps { get; private set; } = default!;
+    [ObservableProperty] private ObservableCollection<Win32App> _apps;
     
     public MainViewModel(ILoggerAdapter<MainViewModel> logger, IAppRepository repository)
     {
@@ -26,5 +26,7 @@ public partial class MainViewModel : ObservableObject
     private async Task GetData()
     {
        Apps = new ObservableCollection<Win32App>(await _repository.GetAllAsync());
+       
+       OnPropertyChanged(nameof(Apps));
     }
 }
