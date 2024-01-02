@@ -132,4 +132,8 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
         AppList.ScrollIntoView(AppList.SelectedItem);
     }
 
+    private void SearchBox_QuerySubmitted(object sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
 }

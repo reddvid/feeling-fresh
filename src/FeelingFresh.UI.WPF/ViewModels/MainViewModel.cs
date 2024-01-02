@@ -23,7 +23,20 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private bool _isLoading;
 
     [ObservableProperty] private bool _isSorted;
-    
+
+    [ObservableProperty] 
+    private string _queryText;
+
+    partial void OnQueryTextChanging(string? value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            OnPropertyChanging(nameof(HasQueryText));
+        }
+    }
+
+    public bool HasQueryText => !string.IsNullOrWhiteSpace(QueryText);
+
     public MainViewModel(ILoggerAdapter<MainViewModel> logger, IAppRepository repository)
     {
         _logger = logger;
@@ -34,7 +47,7 @@ public partial class MainViewModel : ObservableObject
     private async Task GetData()
     {
         IsLoading = true;
-        
+
         Apps = new ObservableCollection<Win32App>(await _repository.GetAllAsync());
 
         IsLoading = false;
@@ -47,13 +60,19 @@ public partial class MainViewModel : ObservableObject
 
         if (IsSorted)
         {
-          Apps = new ObservableCollection<Win32App>(Apps?.OrderBy(x => x.AppName));
+            Apps = new ObservableCollection<Win32App>(Apps?.OrderBy(x => x.AppName));
         }
         else
         {
-          Apps = new ObservableCollection<Win32App>(Apps?.OrderBy(x => x.Id));
+            Apps = new ObservableCollection<Win32App>(Apps?.OrderBy(x => x.Id));
         }
-        
+
         OnPropertyChanged(nameof(Apps));
+    }
+
+    [RelayCommand]
+    private void SearchWithInputText(string? input)
+    {
+        
     }
 }

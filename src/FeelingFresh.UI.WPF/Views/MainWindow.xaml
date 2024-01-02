@@ -49,14 +49,18 @@
                 </Grid.ColumnDefinitions>
                 <ui:TextBox
                     x:Name="tbxInput"
+                    Text="{Binding QueryText, Mode=TwoWay}"
                     Margin="8,0"
                     FontFamily="{StaticResource CustomFont}"
                     PlaceholderText="Search or add an app" />
+                <!-- <ui:AutoSuggestBox PlaceholderText="Search an app"  -->
+                <!--                    FontFamily="{StaticResource CustomFont}" -->
+                <!--                    QuerySubmitted="SearchBox_QuerySubmitted"/> -->
                 <Button
                     x:Name="btnSearchApp"
                     Grid.Column="1"
-                    Click="SearchApp_Click"
-                    Content="&#xE721;"
+                    Content="&#xE721;" 
+                    IsEnabled="{Binding HasQueryText}"
                     FontFamily="Segoe MDL2 Assets"
                     Foreground="White"
                     ToolTip="Search" />
