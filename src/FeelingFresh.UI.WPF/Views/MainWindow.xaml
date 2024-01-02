@@ -48,7 +48,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <ui:TextBox
-                    x:Name="tbxInput"
+                    x:Name="inputTextbox"
                     Text="{Binding QueryText, Mode=TwoWay}"
                     Margin="8,0"
                     FontFamily="{StaticResource CustomFont}"
@@ -57,44 +57,46 @@
                 <!--                    FontFamily="{StaticResource CustomFont}" -->
                 <!--                    QuerySubmitted="SearchBox_QuerySubmitted"/> -->
                 <Button
-                    x:Name="btnSearchApp"
+                    x:Name="buttonSearchApp"
                     Grid.Column="1"
+                    Click="ButtonSearchApp_Clicked"
                     Content="&#xE721;" 
-                    IsEnabled="{Binding HasQueryText}"
+                    Height="40"
                     FontFamily="Segoe MDL2 Assets"
-                    Foreground="White"
-                    ToolTip="Search" />
+                    Foreground="White" />
                 <Button
-                    x:Name="btnAddApp"
+                    x:Name="buttonAddApp"
                     Grid.Column="2"
                     Margin="8,0"
                     Click="AddApp_Click"
+                    Height="40"
                     Content="&#xE109;"
                     FontFamily="Segoe MDL2 Assets"
-                    Foreground="White"
-                    ToolTip="Add" />
+                    Foreground="White"/>
                 <ToggleButton
                     IsEnabled="{Binding IsLoading, Converter={StaticResource BoolNegationConverter}}"
-                    x:Name="tggleBtnSort"
-                    Unchecked="SortApps_Toggled"
-                    Checked="SortApps_Toggled"
+                    x:Name="toggleBtnSortAppList" 
+                    Height="40"
+                    Unchecked="ToggleButtonSortAppList_Toggled"
+                    Checked="ToggleButtonSortAppList_Toggled"
                     Grid.Column="3"
                     Margin="0,0,8,0" 
-                    Command="{Binding SortDataCommand}"
+                    Command="{Binding SortAppsCommand}"
                     IsChecked="{Binding IsSorted, Mode=TwoWay}" 
                     Content="&#xE174;"
                     FontFamily="Segoe MDL2 Assets"
-                    Foreground="White" 
-                    ToolTip="Sort alphabetically (A-Z)" />
+                    Foreground="White"  />
             </Grid>
             <ui:ProgressRing
-                Grid.Row="1" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}"
-                VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}"
+                Grid.Row="1" 
+                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}"
+                VerticalAlignment="Center"
+                IsIndeterminate="{Binding IsLoading}"
                 HorizontalAlignment="Center" />
             <ListView
-                x:Name="AppList"
+                x:Name="listViewApps"
                 Grid.Row="1"
-                Margin="8,0"
+                Margin="8,0,0,0"
                 SelectionMode="Single"
                 BorderThickness="0" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                 Loaded="AppList_Loaded"

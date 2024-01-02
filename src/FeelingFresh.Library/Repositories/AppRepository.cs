@@ -19,7 +19,7 @@ public class AppRepository : IAppRepository
         return await connection.QueryAsync<Win32App>("SELECT * FROM AppsList");
     }
 
-    public async Task<bool> CreateAsync(string appName)
+    public async Task<bool> AddAppAsync(string appName)
     {
         const string query = "INSERT INTO AppsList (AppName) VALUES (@AppName)";
         using var connection = await _connectionFactory.CreateDbConnectionAsync();

@@ -42,7 +42,7 @@ public class AppService : IAppService
         var stopWatch = Stopwatch.StartNew();
         try
         {
-            return await _appRepository.CreateAsync(appName);
+            return await _appRepository.AddAppAsync(appName);
         }
         catch (Exception e)
         {

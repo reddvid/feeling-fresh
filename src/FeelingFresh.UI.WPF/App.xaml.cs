@@ -11,6 +11,7 @@ using FeelingFresh.Library.Logging;
 using FeelingFresh.Library.Options;
 using FeelingFresh.Library.Repositories;
 using FeelingFresh.Library.Services;
+using FeelingFresh.UI.WPF.Controls;
 using FeelingFresh.UI.WPF.ViewModels;
 using FeelingFresh.UI.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,9 @@ public partial class App : Application
                 services.AddScoped<IAppService, AppService>();
                 services.AddScoped<SqlDbConnectionFactory>();
                 services.AddScoped<MainViewModel>();
+                services.AddScoped<EditAppViewModel>();
                 services.AddSingleton<MainWindow>();
+                services.AddSingleton<EditAppDialog>();
             })
             .Build();
     }
