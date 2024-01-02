@@ -132,6 +132,8 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
 
     private async void DialogOnButtonLeftClick(object sender, RoutedEventArgs e)
     {
+        (sender as MessageBox)?.Close();
+        
         (DataContext as MainViewModel)?.AddAppCommand.Execute(default);
         
         // Refresh list view
@@ -139,7 +141,5 @@ public partial class MainWindow : Wpf.Ui.Controls.UiWindow
         
         // Sort
         (DataContext as MainViewModel)!.SortAppsCommand.Execute(default);
-        
-        (sender as MessageBox)?.Close();
     }
 }
