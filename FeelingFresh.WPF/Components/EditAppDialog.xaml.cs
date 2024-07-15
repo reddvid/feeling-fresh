@@ -1,4 +1,4 @@
-﻿using FeelingFreshWPF.Helpers;
+﻿using FeelingFresh.WPF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;

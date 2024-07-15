@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Windows.System;
-using FeelingFreshWPF.Helpers;
+using FeelingFresh.WPF.Helpers;
 
-namespace FeelingFreshWPF
+namespace FeelingFresh.WPF
 {
     public partial class MainWindow
 	{
