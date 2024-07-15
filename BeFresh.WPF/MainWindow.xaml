@@ -28,7 +28,8 @@
                 <Button
                     Click="ButtonBase_OnClick"
                     Content="Backup Minecraft"
-                    Tag="minecraft" />
+                    Tag="minecraft"
+                    x:Name="btnMinecraftBackup" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
