@@ -1,0 +1,48 @@
+﻿<Window
+    Background="#272727"
+    Height="450"
+    Title="MainWindow"
+    Width="800"
+    mc:Ignorable="d"
+    ui:WindowHelper.UseModernWindowStyle="True"
+    x:Class="BeFresh.WPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BeFresh.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Margin="12,0,0,0">
+            <Button
+                Click="ButtonBase_OnClick"
+                Content="Back up Start Menu Layout"
+                Tag="start-menu" />
+        </Grid>
+        <ScrollViewer Grid.Column="1" Margin="12">
+            <StackPanel>
+                <Button
+                    Click="ButtonBase_OnClick"
+                    Content="Backup Minecraft"
+                    Tag="minecraft"
+                    x:Name="btnMinecraftBackup" />
+                <Button
+                    Click="ButtonBase_OnClick"
+                    Content="Backup Elgato Stream Deck Profiles"
+                    Tag="streamdeck"
+                    x:Name="btnStreamDeckBackup" />
+                <Button
+                    Click="ButtonBase_OnClick"
+                    Content="Backup OBS Studio Profiles"
+                    Tag="obs"
+                    x:Name="btnObsBackup" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

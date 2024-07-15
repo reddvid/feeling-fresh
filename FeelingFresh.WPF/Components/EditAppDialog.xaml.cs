@@ -1,4 +1,4 @@
-﻿using FeelingFreshWPF.Helpers;
+﻿using FeelingFresh.WPF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -60,7 +60,7 @@ namespace Components
 
 		private async void UpdateApp_Click(object sender, RoutedEventArgs e)
 		{
-			await DBHelper.UpdateApp(originalName, tbxAppName.Text);
+			await DbHelper.UpdateApp(originalName, tbxAppName.Text);
 
 			Window.GetWindow(this).Close();
 		}

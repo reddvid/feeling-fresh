@@ -1,33 +1,20 @@
 ﻿using Components;
-using FeelingFreshWPF.Helpers;
 using Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Windows.System;
-using Windows.UI.Popups;
+using FeelingFresh.WPF.Helpers;
 
-namespace FeelingFreshWPF
+namespace FeelingFresh.WPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
 	{
-		ObservableCollection<Win32App> DesktopApps { get; set; } = new ObservableCollection<Win32App>();
+		private ObservableCollection<Win32App> DesktopApps { get; set; } = new();
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -40,7 +27,7 @@ namespace FeelingFreshWPF
 
 		private async Task LoadDesktopApps()
 		{
-			DesktopApps = await DBHelper.GetApps();
+			DesktopApps = await DbHelper.GetApps();
 			listViewAppList.ItemsSource = DesktopApps;
 
 			SortList();
@@ -48,11 +35,11 @@ namespace FeelingFreshWPF
 
 		private async void AppList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			var item = (sender as ListView).SelectedItem as Win32App;
-
-			if (item != null)
+			if (((ListView)sender).SelectedItem is Win32App item)
 			{
+#pragma warning disable CA1416
 				await Launcher.LaunchUriAsync(new Uri("https://duckduckgo.com/?q=!ducky+download+for+windows+" + item.AppName));
+#pragma warning restore CA1416
 			}
 		}
 
@@ -73,7 +60,7 @@ namespace FeelingFreshWPF
 				SearchAndScroll(appName);
 			}
 
-			await DBHelper.AddApp(appName);
+			await DbHelper.AddApp(appName);
 			await LoadDesktopApps();
 
 			listViewAppList.SelectedIndex = listViewAppList.Items.Count - 1;
@@ -82,13 +69,12 @@ namespace FeelingFreshWPF
 
 		private void SearchAndScroll(string appName)
 		{
-			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+			if (DesktopApps.Any(x => x.AppName.ToLower().Contains(appName.ToLower())))
 			{
 				// Select Index
-				var item = DesktopApps.Where(x => x.AppName.ToLower() == appName.ToLower()).FirstOrDefault();
-				listViewAppList.SelectedIndex = listViewAppList.Items.IndexOf(item);
+				var item = DesktopApps.FirstOrDefault(x => x.AppName.ToLower().Contains(appName.ToLower()));
+				if (item != null) listViewAppList.SelectedIndex = listViewAppList.Items.IndexOf(item);
 				listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
-				return;
 			}
 		}
 
@@ -101,18 +87,18 @@ namespace FeelingFreshWPF
 		{
 			bool? isChecked = tggleBtnSort.IsChecked;
 
-			listViewAppList.ItemsSource = (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.Id);
+			listViewAppList.ItemsSource = isChecked != null && (bool)isChecked ? DesktopApps.OrderBy(x => x.AppName) : DesktopApps.OrderBy(x => x.Id);
 
 			if (listViewAppList.SelectedIndex != -1) listViewAppList.ScrollIntoView(listViewAppList.SelectedItem);
 		}
 
 		private void SearchApp_Click(object sender, RoutedEventArgs e)
 		{
-			if (String.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
+			if (string.IsNullOrEmpty(tbxInput.Text) || DesktopApps == null || DesktopApps.Count == 0) return;
 
 			var appName = tbxInput.Text;
 
-			if (DesktopApps.Any(x => x.AppName.ToLower() == appName.ToLower()))
+			if (DesktopApps.Any(x => x.AppName.ToLower().Contains(appName.ToLower())))
 			{
 				// Select Index
 				SearchAndScroll(appName);
@@ -121,20 +107,21 @@ namespace FeelingFreshWPF
 
 		private async void DeleteApp_Click(object sender, RoutedEventArgs e)
 		{
-			var appName = (listViewAppList.SelectedItem as Win32App).AppName;
+			var appName = (listViewAppList.SelectedItem as Win32App)?.AppName;
 
-			await DBHelper.RemoveApp(appName);
+			await DbHelper.RemoveApp(appName);
 			await LoadDesktopApps();
 		}
 
 		private void CustomMinimizeBtn_Click(object sender, RoutedEventArgs e)
 		{
-			App.Current.MainWindow.WindowState = WindowState.Minimized;
+			if (Application.Current.MainWindow != null)
+				Application.Current.MainWindow.WindowState = WindowState.Minimized;
 		}
 
 		private async void EditApp_Click(object sender, RoutedEventArgs e)
 		{
-			var appName = (listViewAppList.SelectedItem as Win32App).AppName;
+			var appName = (listViewAppList.SelectedItem as Win32App)?.AppName;
 			int currentIndex = listViewAppList.SelectedIndex;
 
 			Window editDialog = new Window
@@ -146,7 +133,7 @@ namespace FeelingFreshWPF
 				MaxHeight = 220
 			};
 
-			var d = editDialog.ShowDialog();
+			editDialog.ShowDialog();
 			await LoadDesktopApps();
 
 			listViewAppList.SelectedIndex = currentIndex;
