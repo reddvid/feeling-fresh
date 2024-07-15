@@ -8,8 +8,10 @@ Moniker of before fresh 😉, a set of tools to backup:
 
 * Start menu layout
 * Minecraft worlds/installations
-* (WIP) Elgato Stream Deck profiles
-* (WIP) OBS Studio Scenes/Profiles
+* Elgato Stream Deck profiles
+* OBS Studio Scenes/Profiles
+
+(WIP) App UI
 
 # Feeling Fresh (FF)
 
