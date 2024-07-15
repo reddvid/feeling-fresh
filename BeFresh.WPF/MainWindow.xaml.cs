@@ -35,6 +35,9 @@ public partial class MainWindow : Window
     private readonly string _minecraft =
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.minecraft\\";
 
+    private readonly string _streamDeck =
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Elgato\\StreamDeck\\";
+
     private readonly string? _temp = Environment.GetEnvironmentVariable("Temp");
 
 
@@ -63,16 +66,83 @@ public partial class MainWindow : Window
 
         if (string.IsNullOrWhiteSpace(tag)) return;
 
-        if (tag.Equals("start-menu"))
+        switch (tag)
         {
-            BackupStartMenuLayout();
-        }
-        else if (tag.Equals("minecraft"))
-        {
-            await BackupMinecraftFolder();
+            case "start-menu":
+                BackupStartMenuLayout();
+                break;
+            case "minecraft":
+                await BackupMinecraftFolder();
+                break;
+            case "streamdeck":
+                await BackupElgatoStreamDeck();
+                break;
         }
     }
-    
+
+    private async Task BackupElgatoStreamDeck()
+    {
+        // Close elgato stream deck
+        btnStreamDeckBackup.IsEnabled = false;
+
+        var path = Path.Combine(_oneDrivePersonal, FolderName) + "\\StreamDeck\\" +
+                   DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        
+        try
+        {
+            CloseApp("StreamDeck");
+            
+            if (Directory.Exists(path.Trim()))
+            {
+                var fileNameInitial = $"{path}\\streamdeck.zip";
+
+                var backupFileName = fileNameInitial;
+                int count = 1;
+
+                while (File.Exists(backupFileName))
+                {
+                    backupFileName = GenerateFileName(fileNameInitial, count++);
+                }
+
+                Console.WriteLine(backupFileName);
+                await ScanFiles(_streamDeck, "streamdeck", backupFileName);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            btnStreamDeckBackup.IsEnabled = true;
+
+            StartApp("C:\\Program Files\\Elgato\\StreamDeck\\StreamDeck.exe");
+        }
+    }
+
+    /// <summary>
+    /// Kill app
+    /// </summary>
+    /// <param name="appname">app name without the .exe extension</param>
+    private void CloseApp(string appname)
+    {
+        Process[] processes = Process.GetProcessesByName(appname);
+        foreach (var process in processes)
+        {
+            process.Kill();
+        }
+    }
+
+    private void StartApp(string exePath)
+    {
+        Process.Start(exePath);
+    }
+
     private void BackupStartMenuLayout()
     {
         var path = Path.Combine(_oneDrivePersonal, FolderName) + "\\StartMenu\\" +
@@ -126,7 +196,7 @@ public partial class MainWindow : Window
     private async Task BackupMinecraftFolder()
     {
         btnMinecraftBackup.IsEnabled = false;
-        
+
         var path = Path.Combine(_oneDrivePersonal, FolderName) + "\\Minecraft\\" +
                    DateTime.Now.ToString("yyyyMMdd_HHmmss");
         Console.WriteLine(_minecraft);
@@ -151,7 +221,7 @@ public partial class MainWindow : Window
                 }
 
                 Console.WriteLine(backupFileName);
-                await ScanFiles(backupFileName);
+                await ScanFiles(_minecraft, "minecraft", backupFileName);
             }
         }
         catch (Exception ex)
@@ -164,20 +234,20 @@ public partial class MainWindow : Window
         }
     }
 
-    private async Task ScanFiles(string filename)
+    private async Task ScanFiles(string path, string filename, string filePath)
     {
-        var tempFileName = $"{_temp}\\minecraft.zip";
+        var tempFileName = $"{_temp}\\{filename}.zip";
         var fsOut = File.Create(tempFileName);
         var zipStream = new ZipOutputStream(fsOut);
         zipStream.SetLevel(7); //0-9, 9 being the highest level of compression
-        int folderOffset = (_minecraft).Length + ((_minecraft).EndsWith("\\") ? 0 : 1);
+        int folderOffset = (path).Length + ((path).EndsWith("\\") ? 0 : 1);
 
-        await Task.Run(() => CompressFolder(_minecraft, zipStream, folderOffset));
+        await Task.Run(() => CompressFolder(path, zipStream, folderOffset));
 
         zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
         zipStream?.Close();
 
-        if (File.Exists(tempFileName)) File.Move(tempFileName, filename);
+        if (File.Exists(tempFileName)) File.Move(tempFileName, filePath);
     }
 
     private void CompressFolder(string dataFolder, ZipOutputStream zipStream, int folderOffset)
@@ -188,9 +258,9 @@ public partial class MainWindow : Window
         foreach (string filename in files)
         {
             if (filename.Contains(@".minecraft\backups\") || filename.Contains(@".minecraft\assets\")) continue;
-            
+
             Console.WriteLine(filename);
-            
+
             try
             {
                 FileInfo fi = new FileInfo(filename);

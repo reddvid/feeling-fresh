@@ -1,4 +1,5 @@
 ﻿<Window
+    Background="#272727"
     Height="450"
     Title="MainWindow"
     Width="800"
@@ -11,6 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -30,6 +32,11 @@
                     Content="Backup Minecraft"
                     Tag="minecraft"
                     x:Name="btnMinecraftBackup" />
+                <Button
+                    Click="ButtonBase_OnClick"
+                    Content="Backup Elgato Stream Deck Profiles"
+                    Tag="streamdeck"
+                    x:Name="btnStreamDeckBackup" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
