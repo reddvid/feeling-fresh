@@ -37,6 +37,11 @@
                     Content="Backup Elgato Stream Deck Profiles"
                     Tag="streamdeck"
                     x:Name="btnStreamDeckBackup" />
+                <Button
+                    Click="ButtonBase_OnClick"
+                    Content="Backup OBS Studio Profiles"
+                    Tag="obs"
+                    x:Name="btnObsBackup" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

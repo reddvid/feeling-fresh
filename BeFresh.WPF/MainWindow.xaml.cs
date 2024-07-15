@@ -38,6 +38,9 @@ public partial class MainWindow : Window
     private readonly string _streamDeck =
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Elgato\\StreamDeck\\";
 
+    private readonly string _obs = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                   "\\obs-studio\\basic\\";
+    
     private readonly string? _temp = Environment.GetEnvironmentVariable("Temp");
 
 
@@ -77,6 +80,50 @@ public partial class MainWindow : Window
             case "streamdeck":
                 await BackupElgatoStreamDeck();
                 break;
+            case "obs":
+                await BackupObs();
+                break;
+        }
+    }
+
+    private async Task BackupObs()
+    {
+        // Close elgato stream deck
+        btnObsBackup.IsEnabled = false;
+
+        var path = Path.Combine(_oneDrivePersonal, FolderName) + "\\OBS Studio\\" +
+                   DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        
+        try
+        {
+            if (Directory.Exists(path.Trim()))
+            {
+                var fileNameInitial = $"{path}\\obs-profiles.zip";
+
+                var backupFileName = fileNameInitial;
+                int count = 1;
+
+                while (File.Exists(backupFileName))
+                {
+                    backupFileName = GenerateFileName(fileNameInitial, count++);
+                }
+
+                Console.WriteLine(backupFileName);
+                await ScanFiles(_obs, "obs-profiles", backupFileName);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            btnObsBackup.IsEnabled = true;
         }
     }
 
